@@ -1,5 +1,6 @@
 package lk.ijse.gdse68.springpossystembackend.controller;
 
+import lk.ijse.gdse68.springpossystembackend.customerObj.CustomerErrorResponse;
 import lk.ijse.gdse68.springpossystembackend.customerObj.CustomerResponse;
 import lk.ijse.gdse68.springpossystembackend.dto.CustomerDTO;
 import lk.ijse.gdse68.springpossystembackend.exception.CustomerNoteFound;
@@ -99,16 +100,25 @@ public class CustomerController {
     }
     //TODO: GetSelect ID
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CustomerDTO> getCustomerById(@PathVariable("id") String id) {
-        CustomerDTO customerDTO = customerService.getSelectedCustomer(id);
+    public ResponseEntity<CustomerResponse> getSelectCustomer(@PathVariable("id") String id) {
+        // Check if the ID exists in the DB and return the corresponding response
+        CustomerResponse response = customerService.getSelectedCustomer(id);
 
-        // Check if the customer exists
-        if (customerDTO != null) {
-            return new ResponseEntity<>(customerDTO, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);  // Return 404 if customer not found
+        // If it's a success response (CustomerDTO), return OK (200)
+        if (response instanceof CustomerDTO) {
+            return new ResponseEntity<>(response, HttpStatus.OK);
         }
+        // If it's an error response (CustomerErrorResponse), return NOT_FOUND (404)
+        else if (response instanceof CustomerErrorResponse) {
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        }
+
+        // If neither, something unexpected happened, return INTERNAL_SERVER_ERROR (500)
+        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+
+
 
     //TODO:GetAll Customers
     @GetMapping
