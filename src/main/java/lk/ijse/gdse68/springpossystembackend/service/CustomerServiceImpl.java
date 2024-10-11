@@ -58,7 +58,12 @@ public class CustomerServiceImpl implements CustomerService{
 
     @Override
     public void deleteCustomer(String id) {
-
+        Optional<Customer> findId = customerDAO.findById(id);
+        if (!findId.isPresent()){
+            throw new CustomerNoteFound("Customer not found!");
+        }else {
+            customerDAO.deleteById(id);
+        }
     }
 
     @Override

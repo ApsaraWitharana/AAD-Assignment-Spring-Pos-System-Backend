@@ -80,6 +80,20 @@ public class CustomerController {
         }
     }
 
+    //TODO:Delete customer
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<String> deleteCustomer(@PathVariable ("id") String id){
+     try {
+         customerService.deleteCustomer(id);
+         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+     }catch (CustomerNoteFound e){
+         return new ResponseEntity<>("Customer Delete not found!",HttpStatus.NO_CONTENT); // Customer does not exist
+     }catch (Exception e){
+         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+
+     }
+    }
+
 }
 
 
