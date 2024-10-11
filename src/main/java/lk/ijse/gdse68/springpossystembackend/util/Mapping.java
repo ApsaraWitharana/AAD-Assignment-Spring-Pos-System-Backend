@@ -5,7 +5,10 @@ import lk.ijse.gdse68.springpossystembackend.entity.Customer;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
+/**
+ * @author : sachini
+ * @date : 2024-10-11
+ **/
 @Component
 public class Mapping {
     @Autowired
@@ -17,4 +20,5 @@ public class Mapping {
     public Customer convertToEntity(CustomerDTO customerDTO){
         return modelMapper.map(customerDTO,Customer.class);
     }
+
 }
