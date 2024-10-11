@@ -76,4 +76,15 @@ public class ItemController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    @DeleteMapping(value = "/{code}")
+    public ResponseEntity<String> deleteItem(@PathVariable("code") String code){
+        try {
+            itemService.deleteItem(code);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }catch (ItemNoteFound e){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
