@@ -16,6 +16,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.util.List;
+
 /**
  * @author : sachini
  * @date : 2024-10-11
@@ -105,5 +107,15 @@ public class ItemController {
             return new ResponseEntity<>(itemResponse, HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+    //TODO:Item getAll
+    @GetMapping
+    public ResponseEntity<List<ItemDTO>> getAllItem(){
+        List<ItemDTO> itemDTOS = itemService.getAllItem();
+        if (!itemDTOS.isEmpty()){
+            return new ResponseEntity<>(itemDTOS,HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
     }
 }

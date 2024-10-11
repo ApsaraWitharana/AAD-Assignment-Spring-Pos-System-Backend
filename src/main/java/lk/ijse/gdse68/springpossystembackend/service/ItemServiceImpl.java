@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -80,6 +81,16 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public List<ItemDTO> getAllItem() {
-        return null;
+        List<Item> items = itemDAO.findAll();
+        List<ItemDTO> itemDTOS = new ArrayList<>();
+        for (Item item :items){
+            ItemDTO itemDTO = new ItemDTO();
+            itemDTO.setCode(item.getCode());
+            itemDTO.setName(item.getName());
+            itemDTO.setPrice(item.getPrice());
+            itemDTO.setQty(item.getQty());
+            itemDTOS.add(itemDTO);
+        }
+        return itemDTOS;
     }
 }
