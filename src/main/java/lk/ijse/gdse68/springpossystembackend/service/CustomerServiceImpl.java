@@ -1,6 +1,6 @@
 package lk.ijse.gdse68.springpossystembackend.service;
 
-import lk.ijse.gdse68.springpossystembackend.customerObj.CustomerResponse;
+import lk.ijse.gdse68.springpossystembackend.customerObj.CustomerErrorResponse;
 import lk.ijse.gdse68.springpossystembackend.dao.CustomerDAO;
 import lk.ijse.gdse68.springpossystembackend.dto.CustomerDTO;
 import lk.ijse.gdse68.springpossystembackend.entity.Customer;
@@ -67,9 +67,30 @@ public class CustomerServiceImpl implements CustomerService{
     }
 
     @Override
-    public CustomerResponse getSelectedCustomer(String id) {
-        return null;
+    public CustomerDTO getSelectedCustomer(String id) {
+
+        // Check if the customer exists
+        if (customerDAO.existsById(id)) {
+            // Fetch customer details
+            Optional<Customer> customer = customerDAO.findById(id);
+
+            if (customer != null) {
+                // Map Customer to CustomerDTO
+                CustomerDTO customerDTO = new CustomerDTO();
+                customerDTO.setName(customer.get().getName());
+                customerDTO.setAddress(customer.get().getAddress());
+                customerDTO.setSalary(customer.get().getSalary());
+                System.out.println(customerDTO);
+                // Return the mapped DTO
+                return customerDTO;
+            }
+        }
+
+        // Return null or throw an exception if customer not found
+        return null;  // Alternatively, you can throw a custom exception
     }
+
+
 
     @Override
     public List<CustomerDTO> getAllCustomers() {
