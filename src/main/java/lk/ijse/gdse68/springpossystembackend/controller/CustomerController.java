@@ -1,6 +1,7 @@
 package lk.ijse.gdse68.springpossystembackend.controller;
 
 import lk.ijse.gdse68.springpossystembackend.dto.CustomerDTO;
+import lk.ijse.gdse68.springpossystembackend.exception.CustomerNoteFound;
 import lk.ijse.gdse68.springpossystembackend.exception.DataPersisFailedException;
 import lk.ijse.gdse68.springpossystembackend.service.CustomerService;
 import lombok.RequiredArgsConstructor;
@@ -42,13 +43,43 @@ public class CustomerController {
             return new ResponseEntity<>("Customer Salary is empty or invalid! It must be greater than 0.", HttpStatus.BAD_REQUEST);
         }
         //TODO :If all validations pass, save the customer
-    try {
-        customerService.saveCustomer(customerDTO);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }catch (DataPersisFailedException e){
-        return new ResponseEntity<>("Customer data could not be saved, data persistence failed.",HttpStatus.NOT_FOUND);
-    }catch (Exception e){
-        return new ResponseEntity<>("Internal server error occurred while saving the customer.",HttpStatus.INTERNAL_SERVER_ERROR);
+        try {
+            customerService.saveCustomer(customerDTO);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }catch (DataPersisFailedException e){
+            return new ResponseEntity<>("Customer data could not be saved, data persistence failed.",HttpStatus.NOT_FOUND);
+        }catch (Exception e){
+            return new ResponseEntity<>("Internal server error occurred while saving the customer.",HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+     }
+          //TODO: Update Customer
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PatchMapping(value = "/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> updateCustomer(@PathVariable ("id") String id , @RequestBody CustomerDTO customerDTO) {
+        //TODO : Validate
+
+        if (customerDTO.getName() == null || !customerDTO.getName().matches("^[A-Za-z ]{4,}$")) {
+            return new ResponseEntity<>("Customer Name is empty or invalid! It should contain at least 4 alphabetic characters.", HttpStatus.BAD_REQUEST);
+        }
+
+        if (customerDTO.getAddress() == null || !customerDTO.getAddress().matches("^[A-Za-z0-9., -]{5,}$")) {
+            return new ResponseEntity<>("Customer Address is empty or invalid! It should contain at least 5 alphanumeric characters.", HttpStatus.BAD_REQUEST);
+        }
+
+        if (customerDTO.getSalary() <= 0) {
+            return new ResponseEntity<>("Customer Salary is empty or invalid! It must be greater than 0.", HttpStatus.BAD_REQUEST);
+        }
+        try {
+            customerService.updateCustomer(id, customerDTO);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (CustomerNoteFound e) {
+            return new ResponseEntity<>("Customer not found!",HttpStatus.NO_CONTENT);// Return 404 if customer is not found
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
-    }
+
 }
+
+

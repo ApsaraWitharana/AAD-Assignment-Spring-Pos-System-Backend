@@ -2,6 +2,7 @@ package lk.ijse.gdse68.springpossystembackend.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import jakarta.annotation.PreDestroy;
 import jakarta.persistence.EntityManagerFactory;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
@@ -17,6 +18,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import javax.sql.DataSource;
+import java.sql.SQLException;
+
 /**
  * @author : sachini
  * @date : 2024-10-11
@@ -65,4 +68,6 @@ public class WebAppConfigRoot {
         objectMapper.registerModule(new JavaTimeModule());
         return objectMapper;
     }
+
+
 }
