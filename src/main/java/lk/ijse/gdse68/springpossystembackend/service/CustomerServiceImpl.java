@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -94,6 +95,16 @@ public class CustomerServiceImpl implements CustomerService{
 
     @Override
     public List<CustomerDTO> getAllCustomers() {
-        return null;
+        List<Customer> customers = customerDAO.findAll();
+        List<CustomerDTO> customerDTOS = new ArrayList<>();
+        for (Customer customer : customers){
+            CustomerDTO customerDTO = new CustomerDTO();
+            customerDTO.setId(customer.getId());
+            customerDTO.setName(customer.getName());
+            customerDTO.setSalary(customer.getSalary());
+            customerDTOS.add(customerDTO);
+            System.out.println(customerDTOS);
+        }
+        return customerDTOS;
     }
 }

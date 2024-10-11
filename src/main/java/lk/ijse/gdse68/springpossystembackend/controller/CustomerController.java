@@ -11,6 +11,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
 /**
  * @author : sachini
  * @date : 2024-10-11
@@ -94,6 +97,7 @@ public class CustomerController {
 
       }
     }
+    //TODO: GetSelect ID
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CustomerDTO> getCustomerById(@PathVariable("id") String id) {
         CustomerDTO customerDTO = customerService.getSelectedCustomer(id);
@@ -104,6 +108,17 @@ public class CustomerController {
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);  // Return 404 if customer not found
         }
+    }
+
+    //TODO:GetAll Customers
+    @GetMapping
+    public ResponseEntity<List<CustomerDTO>> getAllCustomer(){
+    List<CustomerDTO> customerDTOS = customerService.getAllCustomers();
+        if (!customerDTOS.isEmpty()){
+            return new ResponseEntity<>(customerDTOS,HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+         }
     }
 
 }
