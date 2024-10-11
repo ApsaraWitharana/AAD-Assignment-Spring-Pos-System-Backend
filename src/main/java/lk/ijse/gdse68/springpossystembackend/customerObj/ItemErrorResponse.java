@@ -1,8 +1,19 @@
 package lk.ijse.gdse68.springpossystembackend.customerObj;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
+
 /**
  * @author : sachini
  * @date : 2024-10-11
  **/
-public class ItemErrorResponse {
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
+public class ItemErrorResponse implements ItemResponse, Serializable {
+    private int errorCode;
+    private String errorMessage;
 }

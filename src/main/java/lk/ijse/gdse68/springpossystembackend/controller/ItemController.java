@@ -1,6 +1,9 @@
 package lk.ijse.gdse68.springpossystembackend.controller;
 
 import jakarta.persistence.ManyToOne;
+import lk.ijse.gdse68.springpossystembackend.customerObj.CustomerErrorResponse;
+import lk.ijse.gdse68.springpossystembackend.customerObj.ItemResponse;
+import lk.ijse.gdse68.springpossystembackend.dto.CustomerDTO;
 import lk.ijse.gdse68.springpossystembackend.dto.ItemDTO;
 import lk.ijse.gdse68.springpossystembackend.exception.DataPersisFailedException;
 import lk.ijse.gdse68.springpossystembackend.exception.ItemNoteFound;
@@ -13,7 +16,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
-
+/**
+ * @author : sachini
+ * @date : 2024-10-11
+ **/
 @RestController
 @RequestMapping("api/v1/item")
 @RequiredArgsConstructor
@@ -76,6 +82,7 @@ public class ItemController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    //TODO:Delete item
     @DeleteMapping(value = "/{code}")
     public ResponseEntity<String> deleteItem(@PathVariable("code") String code){
         try {
@@ -86,5 +93,17 @@ public class ItemController {
         }catch (Exception e){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+    //TODO:GetSelected id
+    @GetMapping(value = "/{code}",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ItemResponse>  getSelectedById(@PathVariable("code") String code){
+        ItemResponse itemResponse = itemService.getSelectedItem(code);
+        if (itemResponse instanceof ItemDTO) {
+            return new ResponseEntity<>(itemResponse, HttpStatus.OK);
+        }
+        else if (itemResponse instanceof CustomerErrorResponse) {
+            return new ResponseEntity<>(itemResponse, HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

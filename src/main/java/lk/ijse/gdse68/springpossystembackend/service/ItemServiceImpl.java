@@ -1,6 +1,7 @@
 package lk.ijse.gdse68.springpossystembackend.service;
 
 import lk.ijse.gdse68.springpossystembackend.customerObj.CustomerResponse;
+import lk.ijse.gdse68.springpossystembackend.customerObj.ItemResponse;
 import lk.ijse.gdse68.springpossystembackend.dao.ItemDAO;
 import lk.ijse.gdse68.springpossystembackend.dto.CustomerDTO;
 import lk.ijse.gdse68.springpossystembackend.dto.ItemDTO;
@@ -17,6 +18,10 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * @author : sachini
+ * @date : 2024-10-11
+ **/
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -65,8 +70,12 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public CustomerResponse getSelectedItem(String code) {
-        return null;
+    public ItemResponse getSelectedItem(String code) {
+       if (itemDAO.existsById(code)){
+           return mapping.convertToDTO(itemDAO.getReferenceById(code));
+       }else {
+           throw new ItemNoteFound("Item not found!");
+       }
     }
 
     @Override
