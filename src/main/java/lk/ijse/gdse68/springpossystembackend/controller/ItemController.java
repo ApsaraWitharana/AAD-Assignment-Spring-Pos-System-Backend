@@ -72,6 +72,7 @@ public class ItemController {
         if (itemDTO.getPrice() == null || itemDTO.getPrice().compareTo(BigDecimal.ZERO) <= 0) {
             return new ResponseEntity<>("Item price is empty or invalid! It must be a positive decimal.", HttpStatus.BAD_REQUEST);
         }
+
         if (itemDTO.getQty() <= 0) {
             return new ResponseEntity<>("Item quantity is empty or invalid! It must be greater than 0.", HttpStatus.BAD_REQUEST);
         }

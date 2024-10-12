@@ -1,5 +1,6 @@
 package lk.ijse.gdse68.springpossystembackend.util;
 
+import java.time.LocalDate;
 import java.util.UUID;
 /**
  * @author : sachini
@@ -11,5 +12,12 @@ public class AppUtil {
     }
     public static String createItemCode(){
         return "ITM-"+UUID.randomUUID();
+    }
+    public static String createOrderId(){
+        return "ORD-"+UUID.randomUUID();
+    }
+
+    public static LocalDate getCurrentDate() {
+        return LocalDate.now();
     }
 }

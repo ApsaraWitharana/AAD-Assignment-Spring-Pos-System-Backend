@@ -1,18 +1,24 @@
 package lk.ijse.gdse68.springpossystembackend.entity;
 
 import jakarta.persistence.*;
+import lk.ijse.gdse68.springpossystembackend.customerObj.PlaceOrderResponse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.query.Order;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
+/**
+ * @author : sachini
+ * @date : 2024-10-12
+ **/
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Entity
 @IdClass(OrderItem_PK.class)
-public class OrderDetails {
+public class OrderDetails implements Serializable, PlaceOrderResponse {
     @Id
     private String item_code;
     @Id
