@@ -52,8 +52,10 @@ public class CustomerController {
             customerService.saveCustomer(customerDTO);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }catch (DataPersisFailedException e){
+            System.err.println("Data persistence failed: " + e.getMessage());
             return new ResponseEntity<>("Customer data could not be saved, data persistence failed.",HttpStatus.NOT_FOUND);
         }catch (Exception e){
+            e.printStackTrace();
             return new ResponseEntity<>("Internal server error occurred while saving the customer.",HttpStatus.INTERNAL_SERVER_ERROR);
         }
      }

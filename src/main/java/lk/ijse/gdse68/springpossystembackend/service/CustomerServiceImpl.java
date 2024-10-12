@@ -30,6 +30,8 @@ public class CustomerServiceImpl implements CustomerService{
     private Mapping mapping;
     @Autowired
     private CustomerDAO customerDAO;
+
+
     @Override
     public void saveCustomer(CustomerDTO customerDTO) {
         customerDTO.setId(AppUtil.createCustomerId());
@@ -40,6 +42,7 @@ public class CustomerServiceImpl implements CustomerService{
         if (saveCustomer == null){
             throw new DataPersisFailedException("Customer save Note found!");
         }
+
     }
 
     @Override
