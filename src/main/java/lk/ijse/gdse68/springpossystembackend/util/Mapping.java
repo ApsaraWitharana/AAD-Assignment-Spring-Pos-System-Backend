@@ -1,13 +1,7 @@
 package lk.ijse.gdse68.springpossystembackend.util;
 
-import lk.ijse.gdse68.springpossystembackend.dto.CustomerDTO;
-import lk.ijse.gdse68.springpossystembackend.dto.ItemDTO;
-import lk.ijse.gdse68.springpossystembackend.dto.OrderDetailsDTO;
-import lk.ijse.gdse68.springpossystembackend.dto.OrdersDTO;
-import lk.ijse.gdse68.springpossystembackend.entity.Customer;
-import lk.ijse.gdse68.springpossystembackend.entity.Item;
-import lk.ijse.gdse68.springpossystembackend.entity.OrderDetails;
-import lk.ijse.gdse68.springpossystembackend.entity.Orders;
+import lk.ijse.gdse68.springpossystembackend.dto.*;
+import lk.ijse.gdse68.springpossystembackend.entity.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -49,8 +43,7 @@ public class Mapping {
     public Orders convertToOrderEntity(OrdersDTO ordersDTO){
         return modelMapper.map(ordersDTO, Orders.class);
     }
-    public OrderDetails convertToOrderDetailEntity(OrderDetailsDTO orderDetailsDTO){
-        return modelMapper.map(orderDetailsDTO,OrderDetails.class);
-    }
+
+
     }
 
