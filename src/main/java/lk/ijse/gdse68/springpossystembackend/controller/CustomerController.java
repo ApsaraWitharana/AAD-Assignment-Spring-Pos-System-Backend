@@ -3,10 +3,13 @@ package lk.ijse.gdse68.springpossystembackend.controller;
 import lk.ijse.gdse68.springpossystembackend.customerObj.CustomerErrorResponse;
 import lk.ijse.gdse68.springpossystembackend.customerObj.CustomerResponse;
 import lk.ijse.gdse68.springpossystembackend.dto.CustomerDTO;
+import lk.ijse.gdse68.springpossystembackend.entity.Customer;
 import lk.ijse.gdse68.springpossystembackend.exception.CustomerNoteFound;
 import lk.ijse.gdse68.springpossystembackend.exception.DataPersisFailedException;
 import lk.ijse.gdse68.springpossystembackend.service.CustomerService;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -26,11 +29,12 @@ public class CustomerController {
     @Autowired
     private final CustomerService customerService;
 
-    //TODO:Customer CRUD Implement
+    Logger logger = LoggerFactory.getLogger(Customer.class);    //TODO:Customer CRUD Implement
 
     //TODO: Save Customer
 @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> saveCustomer(@RequestBody CustomerDTO customerDTO){
+              logger.info("connection initialized");
         //TODO : Validate
         if (customerDTO.getId() == null || !customerDTO.getId().matches("^CUS-[0-9]{3}$")) {
             return new ResponseEntity<>("Customer ID is empty or invalid! It should match 'CUS-000' format.", HttpStatus.BAD_REQUEST);
@@ -50,6 +54,7 @@ public class CustomerController {
         //TODO :If all validations pass, save the customer
         try {
             customerService.saveCustomer(customerDTO);
+            logger.info("Customer Save Successfully!!");
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }catch (DataPersisFailedException e){
             System.err.println("Data persistence failed: " + e.getMessage());
@@ -79,6 +84,7 @@ public class CustomerController {
         }
         try {
             customerService.updateCustomer(id, customerDTO);
+            logger.info("Customer Update Successfully!!");
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (CustomerNoteFound e) {
             return new ResponseEntity<>("Customer not found!",HttpStatus.NO_CONTENT);// Return 404 if customer is not found
@@ -92,6 +98,7 @@ public class CustomerController {
     public ResponseEntity<String> deleteCustomer(@PathVariable ("id") String id){
      try {
          customerService.deleteCustomer(id);
+         logger.info("Customer Delete Successfully!!");
          return new ResponseEntity<>(HttpStatus.NO_CONTENT);
      }catch (CustomerNoteFound e){
          return new ResponseEntity<>("Customer Delete not found!",HttpStatus.NO_CONTENT); // Customer does not exist
@@ -114,7 +121,7 @@ public class CustomerController {
         else if (response instanceof CustomerErrorResponse) {
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
-
+        logger.error("Error fetching customer: ");
         // If neither, something unexpected happened, return INTERNAL_SERVER_ERROR (500)
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -129,6 +136,7 @@ public class CustomerController {
         if (!customerDTOS.isEmpty()){
             return new ResponseEntity<>(customerDTOS,HttpStatus.OK);
         }else {
+            logger.error("Get All Customer!!");
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
          }
     }
