@@ -101,12 +101,16 @@ The back-end code is organized to follow best practices and maintainability. Imp
 
 (src/main/java/lk.ijse.gdse68/pos_system_back_end)
 
-- **api**: Contains classes defining the API endpoints and services.
-- **bo**: Business Objects - classes that encapsulate business logic.
+- **config**: Contains configuration classes, such as security filters and logging filters, responsible for setting up the security mechanisms (e.g., JWT filters) and logging functionality across the application.
+- **controller**: Contains classes defining the API endpoints and services.
+- **sevice**: Business Objects - classes that encapsulate business logic.
 - **dao**: Data Access Objects - classes responsible for database interactions.
 - **entity**: Entity classes representing database tables.
 - **dto**: Data Transfer Objects - classes used for data exchange between layers.
-- **filter**: Contains classes implementing request filters for security and logging.
+- **exception**: Contains custom exception classes that handle different types of errors throughout the application..
+- **customObject**: Contains custom object classes, which are utility classes or specific objects that don’t necessarily fit into other categories. .
+- **util**: Utility classes that provide common functionalities or helper methods used across the application..
+
 
 ## Getting Started
 
