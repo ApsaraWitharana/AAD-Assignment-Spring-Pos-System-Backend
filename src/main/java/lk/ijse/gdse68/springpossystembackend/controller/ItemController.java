@@ -5,10 +5,13 @@ import lk.ijse.gdse68.springpossystembackend.customerObj.CustomerErrorResponse;
 import lk.ijse.gdse68.springpossystembackend.customerObj.ItemResponse;
 import lk.ijse.gdse68.springpossystembackend.dto.CustomerDTO;
 import lk.ijse.gdse68.springpossystembackend.dto.ItemDTO;
+import lk.ijse.gdse68.springpossystembackend.entity.Customer;
 import lk.ijse.gdse68.springpossystembackend.exception.DataPersisFailedException;
 import lk.ijse.gdse68.springpossystembackend.exception.ItemNoteFound;
 import lk.ijse.gdse68.springpossystembackend.service.ItemService;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -30,12 +33,14 @@ public class ItemController {
     @Autowired
     private final ItemService itemService;
 
+    Logger logger = LoggerFactory.getLogger(Customer.class);
+
     //TODO: ItemSave
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> saveItem(@RequestBody ItemDTO itemDTO){
         //TODO : Validate
-
+        logger.info("connection initialized");
         // Validate code (pattern: ITM-000)
         if (itemDTO.getCode() == null || !itemDTO.getCode().matches("^ITM-[0-9]{3}$")) {
             return new ResponseEntity<>("Item code is empty or invalid! It should match 'ITM-000' format.", HttpStatus.BAD_REQUEST);
@@ -54,6 +59,7 @@ public class ItemController {
         }
         try {
             itemService.saveItem(itemDTO);
+            logger.info("Item Save Successfully!!");
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }catch (DataPersisFailedException e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -78,6 +84,7 @@ public class ItemController {
         }
         try {
             itemService.updateItem(code,itemDTO);
+            logger.info("Item Update Successfully!!");
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }catch (ItemNoteFound e){
             return new ResponseEntity<>("Item not found!",HttpStatus.NOT_FOUND); ////return 404 item is not found
@@ -90,6 +97,7 @@ public class ItemController {
     public ResponseEntity<String> deleteItem(@PathVariable("code") String code){
         try {
             itemService.deleteItem(code);
+            logger.info("Item Delete Successfully!!");
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }catch (ItemNoteFound e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -107,6 +115,7 @@ public class ItemController {
         else if (itemResponse instanceof CustomerErrorResponse) {
             return new ResponseEntity<>(itemResponse, HttpStatus.NOT_FOUND);
         }
+        logger.info("Get selected items Successfully!!");
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
     //TODO:Item getAll
@@ -116,6 +125,7 @@ public class ItemController {
         if (!itemDTOS.isEmpty()){
             return new ResponseEntity<>(itemDTOS,HttpStatus.OK);
         }else {
+            logger.info("Get all items Successfully!!");
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
     }

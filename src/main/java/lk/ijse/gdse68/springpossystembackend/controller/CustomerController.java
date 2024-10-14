@@ -29,7 +29,8 @@ public class CustomerController {
     @Autowired
     private final CustomerService customerService;
 
-    Logger logger = LoggerFactory.getLogger(Customer.class);    //TODO:Customer CRUD Implement
+    Logger logger = LoggerFactory.getLogger(Customer.class);
+    //TODO:Customer CRUD Implement
 
     //TODO: Save Customer
 @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
