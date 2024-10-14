@@ -23,5 +23,8 @@ public class OrdersDTO implements Serializable, PlaceOrderResponse {
     private String customer_id;
     private List<OrderDetailsDTO> orderDetails;
     private double total;
+    double txtCash;
+    double txtDiscount;
+    int orderQty;
 
 }

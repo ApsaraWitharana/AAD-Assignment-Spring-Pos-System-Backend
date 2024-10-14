@@ -16,6 +16,9 @@ public class AppUtil {
     public static String createOrderId(){
         return "ORD-"+UUID.randomUUID();
     }
+    public static String createOrderDetailsId(){
+        return "ODI-"+UUID.randomUUID();
+    }
 
     public static LocalDate getCurrentDate() {
         return LocalDate.now();

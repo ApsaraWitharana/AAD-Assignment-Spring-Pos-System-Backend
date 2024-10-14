@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -32,7 +33,7 @@ public class Mapping {
     }
 
     public List<CustomerDTO> convertToCustomerEntity(List<Customer> customers){
-        return modelMapper.map(customers, List.class);
+        return modelMapper.map(customers,List.class);
     }
     public ItemDTO convertToDTO(Item item){
         return modelMapper.map(item,ItemDTO.class);
@@ -43,7 +44,7 @@ public class Mapping {
     }
 
     public List<ItemDTO> convertToItemEntity(List<Item> items){
-        return modelMapper.map(items, List.class);
+        return modelMapper.map(items,List.class);
     }
     public Orders convertToOrderEntity(OrdersDTO ordersDTO){
         return modelMapper.map(ordersDTO, Orders.class);

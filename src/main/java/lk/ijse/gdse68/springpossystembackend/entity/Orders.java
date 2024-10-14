@@ -19,11 +19,14 @@ import java.util.List;
 public class Orders implements Serializable {
     @Id
     private String order_id;
-    @ManyToOne(cascade = {CascadeType.REFRESH,CascadeType.DETACH})
+    @ManyToOne
     @JoinColumn(name = "customer_id",referencedColumnName = "id",nullable = false)
-    private Customer customer_id;
+    private Customer customer;
     private LocalDate date;
     private double total;
+    private double txtCash;
+    private double tatDiscount;
     @OneToMany(mappedBy = "orders",cascade = CascadeType.ALL)
     private List<OrderDetails> orderDetails;
+
 }
