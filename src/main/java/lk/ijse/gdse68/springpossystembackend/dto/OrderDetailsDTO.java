@@ -20,6 +20,6 @@ public class OrderDetailsDTO implements Serializable, PlaceOrderResponse {
     private String order_id;
     private String item_code;
     private int qty;
-    private BigDecimal unitPrice;
+    private BigDecimal price;
     private double total;
 }

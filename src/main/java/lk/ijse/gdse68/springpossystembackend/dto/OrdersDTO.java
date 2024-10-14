@@ -8,6 +8,7 @@ import lombok.ToString;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 /**
  * @author : sachini
@@ -21,10 +22,10 @@ public class OrdersDTO implements Serializable, PlaceOrderResponse {
     private String order_id;
     private LocalDate date;
     private String customer_id;
-    private List<OrderDetailsDTO> orderDetails;
+    private List<OrderDetailsDTO> orderDetails = new ArrayList<>();
     private double total;
     double txtCash;
     double txtDiscount;
-    int orderQty;
+    private int qty;
 
 }

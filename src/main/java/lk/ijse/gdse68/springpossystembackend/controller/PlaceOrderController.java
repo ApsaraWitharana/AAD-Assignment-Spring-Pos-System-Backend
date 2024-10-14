@@ -27,16 +27,10 @@ public class PlaceOrderController {
             placeOrderService.placeOrder(ordersDTO);
             return new  ResponseEntity<>(HttpStatus.CREATED);
         }catch (DataPersisFailedException e){
-
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }catch (Exception e){
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
-//    public PlaceOrderResponse placeOrder(@RequestBody OrdersDTO ordersDTO){
-//        placeOrderService.placeOrder(ordersDTO);
-//        return new PlaceOrderErrorResponse("ok","Order Push Successfully!",ordersDTO);
-//    }
 }

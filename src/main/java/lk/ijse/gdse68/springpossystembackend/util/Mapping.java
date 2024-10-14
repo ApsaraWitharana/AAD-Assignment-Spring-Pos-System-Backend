@@ -6,8 +6,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -42,6 +40,9 @@ public class Mapping {
     }
     public Orders convertToOrderEntity(OrdersDTO ordersDTO){
         return modelMapper.map(ordersDTO, Orders.class);
+    }
+    public OrderDetails convertToOrderDetailsEntity(OrderDetailsDTO orderDetailsDTO){
+        return modelMapper.map(orderDetailsDTO, OrderDetails.class);
     }
 
 

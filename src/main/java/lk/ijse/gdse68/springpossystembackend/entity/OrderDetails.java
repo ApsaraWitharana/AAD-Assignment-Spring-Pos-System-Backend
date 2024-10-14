@@ -19,13 +19,15 @@ import java.math.BigDecimal;
 @Entity
 public class OrderDetails implements Serializable, PlaceOrderResponse {
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
     @ManyToOne
-    @JoinColumn(name = "order_id",referencedColumnName = "order_id",insertable = false,updatable = false)
+    @JoinColumn(name = "order_id",referencedColumnName = "order_id",nullable = false)
     private Orders orders;
     @ManyToOne
-    @JoinColumn(name = "Item_code",referencedColumnName = "code",insertable = false,updatable = false)
+    @JoinColumn(name = "item_code",referencedColumnName = "code",nullable = false)
     private Item item;
-    private double price;
-    int orderQty;
+    private BigDecimal price;
+    private int qty;
+    private double total;
 }
