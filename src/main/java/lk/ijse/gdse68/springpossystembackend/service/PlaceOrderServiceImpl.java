@@ -11,6 +11,7 @@ import lk.ijse.gdse68.springpossystembackend.entity.Customer;
 import lk.ijse.gdse68.springpossystembackend.entity.Item;
 import lk.ijse.gdse68.springpossystembackend.entity.OrderDetails;
 import lk.ijse.gdse68.springpossystembackend.entity.Orders;
+import lk.ijse.gdse68.springpossystembackend.exception.DataPersisFailedException;
 import lk.ijse.gdse68.springpossystembackend.exception.ItemNoteFound;
 import lk.ijse.gdse68.springpossystembackend.util.AppUtil;
 import lk.ijse.gdse68.springpossystembackend.util.Mapping;
@@ -39,7 +40,8 @@ public class PlaceOrderServiceImpl implements PlaceOrderService {
     private final CustomerDAO customerDAO;
     @Autowired
     private final Mapping mapping;
-    private final  OrderDetailsDAO orderDetailsDAO;
+    @Autowired
+    private final OrderDetailsDAO orderDetailsDAO;
 
     @Override
     public String placeOrder(OrdersDTO ordersDTO) {
@@ -57,43 +59,29 @@ public class PlaceOrderServiceImpl implements PlaceOrderService {
         order.setTxtCash(ordersDTO.getTxtCash());
         order.setTatDiscount(ordersDTO.getTxtDiscount());
 
-        // Convert the orderDTO to an order entity
-        Orders orders = mapping.convertToOrderEntity(ordersDTO);
-//        Orders orders = mapping.convertToOrderDetailsEntity(ordersDTO).getOrders();
+        // Save the Orders entity after all order details are processed
+        Orders saveOrder = ordersDAO.save(order);
 
-//        List<OrderDetails> orderDetails2 = ordersDTO.getOrderDetails().stream().map(detail->{
-//            OrderDetails orderDetails1 = mapping.convertToOrderDetailsEntity(detail);
-//            orderDetails1.setOrders(orders);
-//            return orderDetails1;
-//        })
-//                .collect(Collectors.toList());
+        // Update item quantities and save order details
+        for (OrderDetailsDTO detailDTO : ordersDTO.getOrderDetails()) {
+            updateItemQty(detailDTO); // Update item quantity
 
-
-        // Update each item's quantity and save order details
-        for (OrderDetailsDTO orderDetailsDTO : ordersDTO.getOrderDetails()) {
-            // Update item quantity
-            updateItemQty(orderDetailsDTO);
-            System.out.println("order details:"+orderDetailsDTO);
-            // Create OrderDetails entity
             OrderDetails orderDetails = new OrderDetails();
-            orderDetails.setOrders(order);
-            orderDetails.setItem(itemDAO.findById(orderDetailsDTO.getItem_code())
-                    .orElseThrow(() -> new RuntimeException("Item not found!!")));
-            orderDetails.setQty(orderDetailsDTO.getQty());
-            orderDetails.setPrice( orderDetailsDTO.getPrice());
+            orderDetails.setId(detailDTO.getOrder_id());
+            orderDetails.setQty(detailDTO.getQty());
+            orderDetails.setPrice(detailDTO.getPrice());
 
-            // Add order details to the order
-            orders.getOrderDetails().add(orderDetails);
-
+            // Retrieve the ItemEntity from the database
+            Item item = itemDAO.findById(detailDTO.getItem_code())
+                    .orElseThrow(() -> new IllegalArgumentException("Invalid item code:" + detailDTO.getItem_code()));
+            orderDetails.setItem(item);
+            orderDetails.setOrders(saveOrder);
+            orderDetailsDAO.save(orderDetails);  // Save the order detail
         }
-//        // Set the saved order in each order detail
-//        for (OrderDetails orderDetails : orderDetails2) {
-//            orderDetails.setOrders(orders); // Ensure the association is set
-//            orderDetailsDAO.save(orderDetails); // Save each order detail
-//        }
 
-        // Save the entire order
-        ordersDAO.save(order);
+        if (saveOrder == null) {
+            throw new DataPersisFailedException("order note save!");
+        }
         return order.getOrder_id();  // Return order ID after successful save
     }
 

@@ -22,7 +22,7 @@ public class OrdersDTO implements Serializable, PlaceOrderResponse {
     private String order_id;
     private LocalDate date;
     private String customer_id;
-    private List<OrderDetailsDTO> orderDetails = new ArrayList<>();
+    private List<OrderDetailsDTO> orderDetails;
     private double total;
     double txtCash;
     double txtDiscount;
