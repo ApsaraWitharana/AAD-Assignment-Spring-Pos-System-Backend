@@ -85,6 +85,7 @@ public class PlaceOrderServiceImpl implements PlaceOrderService {
         return order.getOrder_id();  // Return order ID after successful save
     }
 
+
     private boolean updateItemQty(OrderDetailsDTO orderDetailsDTO) {
         String itemId = orderDetailsDTO.getItem_code();
         Optional<Item> optionalItem = itemDAO.findById(itemId);
@@ -99,5 +100,11 @@ public class PlaceOrderServiceImpl implements PlaceOrderService {
             // Throw custom exception if the item is not found
             throw new ItemNoteFound("Item with id " + itemId + " not found!");
         }
+    }
+
+
+    @Override
+    public List<OrderDetailsDTO> getOrderDetails() {
+        return mapping.convertOrderDetailEntityList(orderDetailsDAO.findAll());
     }
 }

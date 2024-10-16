@@ -3,6 +3,7 @@ package lk.ijse.gdse68.springpossystembackend.util;
 import lk.ijse.gdse68.springpossystembackend.dto.*;
 import lk.ijse.gdse68.springpossystembackend.entity.*;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -45,6 +46,8 @@ public class Mapping {
         return modelMapper.map(orderDetailsDTO, OrderDetails.class);
     }
 
-
+    public List<OrderDetailsDTO> convertOrderDetailEntityList(List<OrderDetails> orderDetailsEntityList) {
+        return modelMapper.map(orderDetailsEntityList, new TypeToken<List<OrderDetailsDTO>>() {}.getType());
     }
+}
 

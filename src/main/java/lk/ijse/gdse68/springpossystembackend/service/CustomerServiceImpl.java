@@ -99,6 +99,7 @@ public class CustomerServiceImpl implements CustomerService{
             CustomerDTO customerDTO = new CustomerDTO();
             customerDTO.setId(customer.getId());
             customerDTO.setName(customer.getName());
+            customerDTO.setAddress(customer.getAddress());
             customerDTO.setSalary(customer.getSalary());
             customerDTOS.add(customerDTO);
             System.out.println(customerDTOS);

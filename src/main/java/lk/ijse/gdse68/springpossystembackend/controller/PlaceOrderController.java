@@ -2,6 +2,7 @@ package lk.ijse.gdse68.springpossystembackend.controller;
 
 import lk.ijse.gdse68.springpossystembackend.customerObj.PlaceOrderErrorResponse;
 import lk.ijse.gdse68.springpossystembackend.customerObj.PlaceOrderResponse;
+import lk.ijse.gdse68.springpossystembackend.dto.OrderDetailsDTO;
 import lk.ijse.gdse68.springpossystembackend.dto.OrdersDTO;
 import lk.ijse.gdse68.springpossystembackend.entity.Customer;
 import lk.ijse.gdse68.springpossystembackend.exception.DataPersisFailedException;
@@ -13,6 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
 /**
  * @author : sachini
  * @date : 2024-10-12
@@ -37,5 +41,9 @@ public class PlaceOrderController {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+    @GetMapping
+    public List<OrderDetailsDTO> getOrderDetails(){
+        return placeOrderService.getOrderDetails();
     }
 }
