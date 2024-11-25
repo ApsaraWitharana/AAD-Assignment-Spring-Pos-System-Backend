@@ -28,6 +28,7 @@ import java.util.List;
 @RestController
 @RequestMapping("api/v1/item")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:63342")
 public class ItemController {
     //TODO: Crud
     @Autowired

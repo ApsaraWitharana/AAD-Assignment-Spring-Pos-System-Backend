@@ -115,7 +115,7 @@ public class CustomerController {
         // Check if the ID exists in the DB and return the corresponding response
         CustomerResponse response = customerService.getSelectedCustomer(id);
 
-        // If it's a success response (CustomerDTO), return OK (200)
+        // If it's a success response (CustomerDTO), return NOT_FOUND (404)
         if (response instanceof CustomerDTO) {
             return new ResponseEntity<>(response, HttpStatus.OK);
         }
